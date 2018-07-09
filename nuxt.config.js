@@ -39,6 +39,7 @@ module.exports = {
   plugins: [
     '@/plugins/vuetify'
   ],
+  css: ['@/assets/app.styl'],
 
   /*
   ** Nuxt.js modules
@@ -58,6 +59,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['axios', 'vuetify'],
     /*
     ** You can extend webpack config here
     */
