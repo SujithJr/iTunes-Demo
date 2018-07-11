@@ -44,32 +44,38 @@
   export default {
     data() {
       return {
-        email: '',
-        password: '',
-        confirmPassword: ''
-      }
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }
     },
     computed: {
-       comparePasswords () {
-        return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
-      },
+        comparePasswords () {
+            return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
+        },
     },
     methods: {
         signup() {
-          const formData = {
-              email: this.email,
-              password: this.password,
-              confirmPassword: this.confirmPassword
-          }
-          console.log(formData);
-        // this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
-        axios.post('https://itunes-e4def.firebaseio.com/users.json', formData)
+            const formData = {
+                email: this.email,
+                password: this.password,
+                confirmPassword: this.confirmPassword
+            }
+            axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAISZgYtlnMRsbcKJjcbUZ5MG91d1Z2gP4', {
+                email: formData.email,
+                password: formData.password,
+                returnSecureToken: true
+            })
             .then((res) => {
                 console.log(res);
             }).catch((error) => {
                 console.log(error);
             })
-      }
+            this.email = ''
+            this.password = ''
+            this.confirmPassword = ''
+            this.$router.push('/')
+        }
     }
-  }
+}
 </script>

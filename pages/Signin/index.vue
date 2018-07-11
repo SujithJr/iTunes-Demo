@@ -1,4 +1,4 @@
-<!--<template>
+<template>
   <v-container>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
@@ -6,7 +6,7 @@
           <v-card-text>
               <h2 class="pink--text text-xs-center">SignIn Form</h2>
             <v-container>
-              <form @submit.prevent="onSignin">
+              <form @submit.prevent="onSubmit">
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
@@ -43,30 +43,50 @@
   </v-container>
 </template>
 
-<script>-->
-<!--
-//   export default {
-//     data () {
-//       return {
-//         email: '',
-//         password: '',
-//       }
-//     },
-//     // computed: {
-//     //   user () {
-//     //     return this.$store.getters.user
-//     //   }
-//     // },
-//     // watch: {
-//     //   user (value) {
-//     //     if (value !== null && value !== undefined) {
-//     //       this.$router.push('/')
-//     //     }
-//     //   }
-//     // },
-//     methods: {
-//       onSignup () {
-//         // this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
-//       }
-//     }
-//   }
+<script>
+  import axios from 'axios';
+  
+  export default {
+    data () {
+      return {
+        email: '',
+        password: '',
+      }
+    },
+    computed: {
+      user () {
+        return this.$store.getters.user
+      }
+    },
+    watch: {
+      user (value) {
+        if (value !== null && value !== undefined) {
+          this.$router.push('/')
+        }
+      }
+    },
+    methods: {
+      onSubmit() {
+        const formData = {
+          email: this.email,
+          password: this.password
+        }
+        console.log(formData)
+        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAISZgYtlnMRsbcKJjcbUZ5MG91d1Z2gP4', {
+            email: formData.email,
+            password: formData.password,
+            returnSecureToken: true
+        })
+        .then((res) => {
+            console.log(res);
+        }).catch((error) => {
+            console.log(error);
+        })
+        this.email = ''
+        this.password = ''
+        this.$router.push('/')
+      }
+    }
+  }
+
+</script>
