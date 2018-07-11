@@ -3,7 +3,6 @@
 		<TheHeader></TheHeader>
 		<nuxt/>
 	</v-container>
-	</div>
 </template>
 
 <script>
