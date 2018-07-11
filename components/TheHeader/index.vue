@@ -1,22 +1,32 @@
 <template>
     <v-toolbar dark color="black">
         <v-toolbar-title class="white--text">
-            <nuxt-link class="title" to="/">iTunes</nuxt-link>
+            <v-btn flat class="display-1 font-weight-black font-italic">iTunes</v-btn>
+            <!-- <nuxt-link class="title" to="/#">iTunes</nuxt-link> -->
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn flat to="/signup">SignUp</v-btn>
-            <v-btn flat to="/signin">SignIn</v-btn>
-            <v-btn flat to="/">Dashboard</v-btn>
+            <v-btn v-if="!user" flat to="/signup">SignUp</v-btn>
+            <v-btn v-if="!user" flat to="/signin">SignIn</v-btn>
+            <v-btn v-if="user" flat to="/">Dashboard</v-btn>
         </v-toolbar-items>
-        <v-btn to="/" icon>
-            <v-icon style="">format_color_fill</v-icon>
-        </v-btn>
+            <v-btn v-if="user" flat icon @click="logout"><v-icon style="">lock</v-icon></v-btn>
     </v-toolbar>
 </template>
 
 <script>
 export default {
+    computed: {
+        user() {
+            return this.$store.getters.token
+        }
+    },
+    methods: {
+        logout() {
+            this.$store.dispatch('logout')
+            // this.$router.push('/signin')
+        }
+    }
 }
 </script>
 

@@ -31,7 +31,7 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
-                    <v-btn type="submit" color="red white--text">Sign up</v-btn>
+                    <v-btn type="submit" color="red white--text">Sign In</v-btn>
                   </v-flex>
                 </v-layout>
               </form>
@@ -45,7 +45,7 @@
 
 <script>
   import axios from 'axios';
-  
+
   export default {
     data () {
       return {
@@ -54,34 +54,28 @@
       }
     },
     computed: {
-      user () {
-        return this.$store.getters.user
-      }
+    //   user () {
+    //     return this.$store.getters.user
+    //   }
     },
-    watch: {
-      user (value) {
-        if (value !== null && value !== undefined) {
-          this.$router.push('/')
-        }
-      }
-    },
+    // watch: {
+    //   user (value) {
+    //     if (value !== null && value !== undefined) {
+    //       this.$router.push('/')
+    //     }
+    //   }
+    // },
     methods: {
       onSubmit() {
         const formData = {
           email: this.email,
           password: this.password
         }
-        console.log(formData)
-        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAISZgYtlnMRsbcKJjcbUZ5MG91d1Z2gP4', {
+        this.$store.dispatch('login', {
             email: formData.email,
-            password: formData.password,
-            returnSecureToken: true
+            password: formData.password
         })
-        .then((res) => {
-            console.log(res);
-        }).catch((error) => {
-            console.log(error);
-        })
+        this.$store.dispatch('storeUser', formData)
         this.email = ''
         this.password = ''
         this.$router.push('/')

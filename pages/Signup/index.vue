@@ -59,18 +59,9 @@
             const formData = {
                 email: this.email,
                 password: this.password,
-                confirmPassword: this.confirmPassword
             }
-            axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAISZgYtlnMRsbcKJjcbUZ5MG91d1Z2gP4', {
-                email: formData.email,
-                password: formData.password,
-                returnSecureToken: true
-            })
-            .then((res) => {
-                console.log(res);
-            }).catch((error) => {
-                console.log(error);
-            })
+            this.$store.dispatch('signup', formData)
+            this.$store.dispatch('storeUser', formData)
             this.email = ''
             this.password = ''
             this.confirmPassword = ''

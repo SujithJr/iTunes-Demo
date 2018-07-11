@@ -7,5 +7,4 @@ export default function( {params, store} ) {
             console.log(response.data.results);
             store.commit('add', response.data.results);
         });
-
 }

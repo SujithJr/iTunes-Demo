@@ -1,7 +1,11 @@
 <template>
 	<v-container fluid="true">
-		<TheHeader></TheHeader>
-		<nuxt/>
+        <v-layout row>
+            <v-flex xs12>
+                <TheHeader></TheHeader>
+                <nuxt/>
+            </v-flex>
+        </v-layout>
 	</v-container>
 </template>
 

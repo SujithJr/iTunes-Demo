@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div v-if="user">
         <h1>Search iTunes</h1>
         <p>You should only get here if you are authenticated.!</p>
         <p>Your mail address: {{ email }}</p>
         <form @submit.prevent="submit">
-            <input placeholder="Enter Recipe Name"
+            <input placeholder="Enter Album Name"
             v-model="search" autofocus>
         </form>
     </div>
@@ -17,25 +17,20 @@ export default {
     data() {
         return {
             search: '',
-            email: ''
         }
     },
-    // created() {
-    //     axios.get('https://itunes-e4def.firebaseio.com/users.json')
-    //     .then((res) => {
-    //         const data = res.data
-    //         const users = []
-    //         for(let key in data) {
-    //             const user = data[key]
-    //             user.id = key
-    //             users.push(user)
-    //         }
-    //         console.log(users)
-    //         this.email = users[0].email
-    //     }).catch((error) => {
-    //         console.log(error);
-    //     })
-    // },
+    computed: {
+        email() {
+            return !this.$store.getters.user ? false : this.$store.getters.user.email
+        },
+        user() {
+            return this.$store.getters.token
+        }
+    },
+    created() {
+        this.$store.dispatch('fetchUser')
+        this.$store.dispatch('tryAutoLogin')
+    },
     methods: {
         submit(event) {
             if (!this.search) {
