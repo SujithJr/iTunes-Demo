@@ -15,6 +15,27 @@ import TheHeader from '@/components/TheHeader'
 export default {
 	components: {
 		TheHeader,
-	}
+	},
+    computed: {
+        email() {
+            return !this.$store.getters.user ? false : this.$store.getters.user
+        },
+        user() {
+            return this.$store.getters.token
+        },
+    },
+    mounted() {
+          this.$nextTick(function () {
+              this.$store.dispatch('tryAutoLogin')
+        })
+    },
+    created() {
+        this.$store.dispatch('subscribeList')
+    }
 }
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Prompt');
+
+</style>

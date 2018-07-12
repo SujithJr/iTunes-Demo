@@ -8,7 +8,8 @@ const createStore = () => {
             albums: [],
             idToken: null,
             userId: null,
-            user: null
+            user: null,
+            subList: []
         },
         mutations: {
             add (state, payload) {
@@ -25,6 +26,9 @@ const createStore = () => {
             clearAuth (state) {
                 state.idToken = null,
                 state.userId = null
+            },
+            paidAlbum(state, payload) {
+                state.subList.push(payload)
             }
         },
         actions: {
@@ -53,8 +57,8 @@ const createStore = () => {
                     this.$warehouse.set('token', res.data.idToken)
                     this.$warehouse.set('userId', res.data.localId)
                     this.$warehouse.set('user', res.data.email)
-                    dispatch('storeUser', formData.email)
-                    dispatch('setLogoutTime', res.data.expiresIn)
+                    dispatch('storeUser', formData)
+                    // dispatch('setLogoutTime', res.data.expiresIn)
                 }).catch((error) => {
                     console.log(error)
                 })
@@ -79,16 +83,13 @@ const createStore = () => {
                         userId: res.data.localId,
                         user: res.data.email
                     })
-                    dispatch('storeUser', authData.email)
-                    dispatch('setLogoutTime', res.data.expiresIn)
+                    dispatch('storeUser', authData)
+                    // dispatch('setLogoutTime', res.data.expiresIn)
                 }).catch((error) => {
                     console.log(error)
                 })
             },
             tryAutoLogin({commit}) {
-                // if (parser.client) {
-
-                // }
                 let token  = this.$warehouse.get('token')
                 if (!token) {
                     return
@@ -124,9 +125,9 @@ const createStore = () => {
                     })
             },
             fetchUser({commit, state, getters}) {
-                // if (!getters.token) {
-                //     return
-                // }
+                if (!getters.token) {
+                    return
+                }
                 globalAxios.get('https://itunes-e4def.firebaseio.com/users.json')
                 .then((res) => {
                     console.log(res)
@@ -142,6 +143,28 @@ const createStore = () => {
                 }).catch((error) => {
                     console.log(error)
                 })
+            },
+            paidAlbum({commit, state}, payload) {
+                const songData = payload
+                if (!state.idToken) {
+                    return
+                }
+                globalAxios.post('https://itunes-e4def.firebaseio.com/' + state.userId + '.json/?auth=' + state.idToken, songData)
+                    .then((res) => {
+                        console.log(res)
+                        commit('paidAlbum', songData.artistName)
+                    }).catch((error) => {
+                        console.log(error)
+                    })
+            },
+            subscribeList({commit, state}, payload) {
+                globalAxios.get('https://itunes-e4def.firebaseio.com/' + state.userId + '.json')
+                    .then((res) => {
+                        console.log(res)
+                        // commit('paidAlbum', songData.artistName)
+                    }).catch((error) => {
+                        console.log(error)
+                    })
             }
         },
         getters: {

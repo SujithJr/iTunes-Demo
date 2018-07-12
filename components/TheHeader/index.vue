@@ -1,7 +1,7 @@
 <template>
-    <v-toolbar dark color="black">
+    <v-toolbar dark color="red darken-3">
         <v-toolbar-title class="white--text">
-            <v-btn flat class="display-1 font-weight-black font-italic">iTunes</v-btn>
+            <v-btn flat class="font-weight-black head">i<span>T</span>unes</v-btn>
             <!-- <nuxt-link class="title" to="/#">iTunes</nuxt-link> -->
         </v-toolbar-title>
         <v-spacer></v-spacer>
@@ -31,10 +31,22 @@ export default {
 </script>
 
 <style scoped>
+
 .title {
   text-decoration: none !important;
 }
 .title:visited{
   color: white;
+}
+.head {
+    margin: 0;
+    padding: 0;
+    font-size: 2.5rem;
+    text-transform: lowercase;
+    font-family: 'Prompt', sans-serif;
+
+}
+span {
+    text-transform: uppercase;
 }
 </style>
