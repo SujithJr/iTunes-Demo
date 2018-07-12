@@ -3,7 +3,7 @@ const pkg = require('./package')
 const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
-  mode: 'universal',
+  mode: '',
 
   /*
   ** Headers of the page
@@ -20,6 +20,11 @@ module.exports = {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ]
   },
+
+  // Middleware
+  // router: {
+  //   middleware: ''
+  // },
 
   /*
   ** Customize the progress-bar color
@@ -72,7 +77,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['axios', 'vuetify'],
+    vendor: ['axios', 'vuetify', 'vue-warehouse/nuxt'],
     /*
     ** You can extend webpack config here
     */

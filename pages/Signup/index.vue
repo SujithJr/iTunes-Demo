@@ -65,6 +65,11 @@
             this.email = ''
             this.password = ''
             this.confirmPassword = ''
+            if (this.user) {
+                this.$router.push('/')
+            } else {
+                return
+            }
             this.$router.push('/')
         }
     }

@@ -21,15 +21,16 @@ export default {
     },
     computed: {
         email() {
-            return !this.$store.getters.user ? false : this.$store.getters.user.email
+            return !this.$store.getters.user ? false : this.$store.getters.user
         },
         user() {
             return this.$store.getters.token
         }
     },
-    created() {
-        this.$store.dispatch('fetchUser')
-        this.$store.dispatch('tryAutoLogin')
+    mounted() {
+          this.$nextTick(function () {
+              this.$store.dispatch('tryAutoLogin')
+        })
     },
     methods: {
         submit(event) {

@@ -54,9 +54,9 @@
       }
     },
     computed: {
-    //   user () {
-    //     return this.$store.getters.user
-    //   }
+      user () {
+        return this.$store.getters.user
+      }
     },
     // watch: {
     //   user (value) {
@@ -78,7 +78,11 @@
         this.$store.dispatch('storeUser', formData)
         this.email = ''
         this.password = ''
-        this.$router.push('/')
+        if (this.user) {
+          this.$router.push('/')
+        } else {
+          return
+        }
       }
     }
   }
