@@ -27,11 +27,12 @@ export default {
     mounted() {
           this.$nextTick(function () {
               this.$store.dispatch('tryAutoLogin')
+              this.$store.dispatch('subscribeList')
         })
     },
-    created() {
-        this.$store.dispatch('subscribeList')
-    }
+    // created() {
+    //     this.$store.dispatch('subscribeList')
+    // }
 }
 </script>
 

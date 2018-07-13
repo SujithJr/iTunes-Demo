@@ -3,7 +3,7 @@
         <h1>Results for {{ $route.params.id }} / Total - {{ albumData.length }} Albums</h1>
         <p>Pay to listen all the songs</p>
         <form @submit.prevent="pay">
-            <v-btn type="submit" class="pay" color="grey darken-1 white--text">Pay 20$</v-btn>
+            <v-btn type="submit" :disabled="show" class="pay" color="grey darken-1 white--text">{{ payment }}</v-btn>
             <div v-if="albumAvail" class="albums">
                 <template v-if="show === false">
                     <div v-for="(album, index) in albumData.slice(0, 5)" :key="album.index" class="collection">
@@ -44,12 +44,16 @@ export default {
     data() {
         return {
             show: false,
-            color: 'green'
+            color: 'green',
+            payment: 'Pay 20$'
         }
     },
     components: {
         Card,
     },
+    // created() {
+    //     this.$store.dispatch('subscribeList')
+    // },
     asyncData({params}) {
         return axios.get(`https://itunes.apple.com/search?term=${params.id}&entity=album`)
         .then((response) => {
@@ -66,6 +70,7 @@ export default {
         },
         pay() {
             this.show = true
+            this.payment = 'Paid'
             // const songData = {
             //     artistName: this.$route.params.id,
             //     userId: this.userId

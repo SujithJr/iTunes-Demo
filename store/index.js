@@ -9,7 +9,7 @@ const createStore = () => {
             idToken: null,
             userId: null,
             user: null,
-            subList: []
+            subList: null
         },
         mutations: {
             add (state, payload) {
@@ -28,7 +28,7 @@ const createStore = () => {
                 state.userId = null
             },
             paidAlbum(state, payload) {
-                state.subList.push(payload)
+                state.subList = payload 
             }
         },
         actions: {
@@ -140,7 +140,8 @@ const createStore = () => {
                     }
                     console.log('Users Array: ' + users)
                     commit('storeUser', users[0].email)
-                }).catch((error) => {
+                })
+                .catch((error) => {
                     console.log(error)
                 })
             },
@@ -157,11 +158,25 @@ const createStore = () => {
                         console.log(error)
                     })
             },
-            subscribeList({commit, state}, payload) {
-                globalAxios.get('https://itunes-e4def.firebaseio.com/' + state.userId + '.json')
+            subscribeList({commit, state, getters}, payload) {
+                console.log(getters.token)
+                if (!getters.token) {
+                    return
+                }
+                globalAxios.get('https://itunes-e4def.firebaseio.com/' + state.userId + '.json/?auth=' + state.idToken)
                     .then((res) => {
-                        console.log(res)
-                        // commit('paidAlbum', songData.artistName)
+                        const data = res.data
+                        const albums = []
+                        for (let key in data) {
+                            const song = data[key]
+                            song.id = key
+                            albums.push(song)
+                        }
+                        // this.$warehouse.set('song', res)
+                        // console.log(albums)
+                        const uniqAlbum = [...new Set(albums.map(a => a.alb))]
+                        console.log(uniqAlbum)
+                        // commit('paidAlbum', uniqAlbum)
                     }).catch((error) => {
                         console.log(error)
                     })
