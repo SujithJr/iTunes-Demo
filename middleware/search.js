@@ -11,3 +11,4 @@ export default function( {params, store, route} ) {
             store.dispatch('payment')
         });
 }
+

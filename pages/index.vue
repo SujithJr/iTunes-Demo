@@ -42,8 +42,10 @@ export default {
             if (!this.search) {
                 return
             }
-            this.$router.push(`results/${this.search}`)
-            this.$store.dispatch('payment')
+            const searchItem = this.search.toUppercase()
+            console.log(searchItem)
+            // this.$router.push(`results/${searchItem}`)
+            // this.$store.dispatch('payment')
         }
     }
 }

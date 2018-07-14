@@ -1,6 +1,6 @@
 // import axios from 'axios';
 
-export default function( {params, store} ) {
+export default function( { app, params, store} ) {
 
 
     store.dispatch('subscribeList')

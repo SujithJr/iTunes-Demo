@@ -1,33 +1,38 @@
 <template>
     <div>
-        <h1>List Of Songs<span v-if="songList[0] == null"> - You have not Subscribed to any Albums yet.!</span></h1>
-        <div v-if="songList !== null">
-            <div class="collect-flex">
-                <div v-for="(song, index) in songList" :key="song.index" class="collection">
-                    <div class="grey lighten-3">
-                        <v-container fluid>
-                            <v-layout row wrap>
-                                <v-flex xs12>
-                                    <v-card class="white--text" target="_blank" :color="picker(index)">
-                                        <v-container fluid grid-list-lg>
-                                        <v-layout row>
-                                            <v-flex xs12>
-                                            <div class="adjust">
-                                                <div><h3 class="text-xs-center artistname">{{ song.artistName }}</h3></div>
-                                            </div>
-                                            </v-flex>
-                                        </v-layout>
-                                        </v-container>
-                                    </v-card>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
+        <div v-if="songList">
+            <h1>List Of Songs<span v-if="songList[0] == null"> - You have not Subscribed to any Albums yet.!</span></h1>
+            <div v-if="songList">
+                <div class="collect-flex">
+                    <div v-for="(song, index) in songList" :key="song.index" class="collection">
+                        <div class="grey lighten-3">
+                            <v-container fluid>
+                                <v-layout row wrap>
+                                    <v-flex xs12>
+                                        <v-card class="white--text" target="_blank" :color="picker(index)">
+                                            <v-container fluid grid-list-lg>
+                                            <v-layout row>
+                                                <v-flex xs12>
+                                                <div class="adjust">
+                                                    <div><h3 class="text-xs-center artistname">{{ song.artistName }}</h3></div>
+                                                </div>
+                                                </v-flex>
+                                            </v-layout>
+                                            </v-container>
+                                        </v-card>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div v-else>
+                <h2></h2>
+            </div>
         </div>
         <div v-else>
-            <h2></h2>
+            <h2>You have not Subscribed to any Albums yet.!</span></h2>
         </div>
     </div>
 
@@ -51,7 +56,7 @@ export default {
             return index % 2 == 0 ? 'cyan darken-2' : 'pink accent-4';
         },
     },
-    middleware: 'soundtrack'
+    middleware: ['soundtrack']
 }
 </script>
 

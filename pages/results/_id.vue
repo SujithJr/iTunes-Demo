@@ -58,7 +58,7 @@ export default {
             }
         })
     },
-    middleware: ['search', 'paymentMode'],
+    middleware: ['search', 'paymentMode', 'songRoute'],
     fetch({ store }) {
         store.dispatch('payment')
     },

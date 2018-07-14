@@ -11,7 +11,8 @@ const createStore = () => {
             user: null,
             subList: null,
             paid: null,
-            routing: null
+            routing: null,
+            routeUrl: null
         },
         mutations: {
             add (state, payload) {
@@ -37,6 +38,9 @@ const createStore = () => {
             },
             routing(state, payload) {
                 state.routing = payload
+            },
+            routeUrl(state, payload) {
+                state.routeUrl = payload
             }
         },
         actions: {
@@ -67,7 +71,6 @@ const createStore = () => {
                     this.$warehouse.set('user', res.data.email)
                     dispatch('storeUser', formData)
                     this.$router.replace('/playlist')
-                    // dispatch('setLogoutTime', res.data.expiresIn)
                 }).catch((error) => {
                     console.log(error)
                 })
@@ -94,7 +97,6 @@ const createStore = () => {
                     })
                     dispatch('storeUser', authData)
                     this.$router.replace('/playlist')
-                    // dispatch('setLogoutTime', res.data.expiresIn)
                 }).catch((error) => {
                     console.log(error)
                 })
@@ -176,22 +178,11 @@ const createStore = () => {
                 globalAxios.get('https://itunes-e4def.firebaseio.com/' + state.userId + '.json/?auth=' + state.idToken)
                 .then((res) => {
                     const data = res.data
-                    // const albums = []
-                    // for (let key in data) {
-                    //     const song = data[key]
-                    //     song.id = key
-                    //     albums.push(song)
-                    // }
-                    // commit('paidAlbum', albums)
-
-                    // const lists = this.$store.getters.songList
-                    // console.log(lists)
                     const listArr = []
                     for (let key in data) {
                         const dataOne = data[key].artistName
                         listArr.push(dataOne)
                     }
-                    // console.log(listArr)
                     const result = listArr.filter((value, index, array) => {
                         return array.indexOf(value) == index
                     })
@@ -239,6 +230,9 @@ const createStore = () => {
             },
             routing({commit}, payload) {
                 commit('routing', payload)
+            },
+            routeUrl({commit}, payload) {
+                commit('routeUrl', payload)
             }
         },
         getters: {
@@ -259,6 +253,9 @@ const createStore = () => {
             },
             routing(state) {
                 return state.routing
+            },
+            routeUrl(state) {
+                return state.routeUrl
             }
         }
     })

@@ -30,10 +30,11 @@ export default {
               this.$store.dispatch('subscribeList')
         })
     },
-    middleware: 'soundtrack'
-    // created() {
-    //     this.$store.dispatch('subscribeList')
-    // }
+    middleware: 'soundtrack',
+    transition(to, from) {
+    if (!from) return 'slide-left'
+    return +to.query.page < +from.query.page ? 'slide-right' : 'slide-left'
+  }
 }
 </script>
 
