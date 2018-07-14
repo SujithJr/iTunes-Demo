@@ -9,7 +9,9 @@ const createStore = () => {
             idToken: null,
             userId: null,
             user: null,
-            subList: null
+            subList: null,
+            paid: null,
+            routing: null
         },
         mutations: {
             add (state, payload) {
@@ -28,7 +30,13 @@ const createStore = () => {
                 state.userId = null
             },
             paidAlbum(state, payload) {
-                state.subList = payload 
+                state.subList = payload
+            },
+            payment(state, payload) {
+                state.paid = payload
+            },
+            routing(state, payload) {
+                state.routing = payload
             }
         },
         actions: {
@@ -58,6 +66,7 @@ const createStore = () => {
                     this.$warehouse.set('userId', res.data.localId)
                     this.$warehouse.set('user', res.data.email)
                     dispatch('storeUser', formData)
+                    this.$router.replace('/playlist')
                     // dispatch('setLogoutTime', res.data.expiresIn)
                 }).catch((error) => {
                     console.log(error)
@@ -84,6 +93,7 @@ const createStore = () => {
                         user: res.data.email
                     })
                     dispatch('storeUser', authData)
+                    this.$router.replace('/playlist')
                     // dispatch('setLogoutTime', res.data.expiresIn)
                 }).catch((error) => {
                     console.log(error)
@@ -164,22 +174,71 @@ const createStore = () => {
                     return
                 }
                 globalAxios.get('https://itunes-e4def.firebaseio.com/' + state.userId + '.json/?auth=' + state.idToken)
-                    .then((res) => {
-                        const data = res.data
-                        const albums = []
-                        for (let key in data) {
-                            const song = data[key]
-                            song.id = key
-                            albums.push(song)
-                        }
-                        // this.$warehouse.set('song', res)
-                        // console.log(albums)
-                        const uniqAlbum = [...new Set(albums.map(a => a.alb))]
-                        console.log(uniqAlbum)
-                        // commit('paidAlbum', uniqAlbum)
-                    }).catch((error) => {
-                        console.log(error)
+                .then((res) => {
+                    const data = res.data
+                    // const albums = []
+                    // for (let key in data) {
+                    //     const song = data[key]
+                    //     song.id = key
+                    //     albums.push(song)
+                    // }
+                    // commit('paidAlbum', albums)
+
+                    // const lists = this.$store.getters.songList
+                    // console.log(lists)
+                    const listArr = []
+                    for (let key in data) {
+                        const dataOne = data[key].artistName
+                        listArr.push(dataOne)
+                    }
+                    // console.log(listArr)
+                    const result = listArr.filter((value, index, array) => {
+                        return array.indexOf(value) == index
                     })
+                    const songArr = []
+                    for (let item in result) {
+                        const listItem = result[item]
+                        songArr.push({
+                            artistName: listItem
+                        })
+                    }
+                    commit('paidAlbum', songArr)
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+            payment({commit, getters, state}) {
+                const lists = getters.songList
+                const listArr = []
+                for (let key in lists) {
+                    const data = lists[key].artistName
+                    listArr.push(data)
+                }
+                const result = listArr.filter((value, index, array) => {
+                    return array.indexOf(value) == index
+                })
+                const songArr = []
+                for (let item in result) {
+                    const listItem = result[item]
+                    songArr.push(listItem)
+                }
+                const para = state.routing
+                console.log(songArr, para)
+                var found =  songArr.find((value) => {
+                    return value === para
+                })
+                console.log(found)
+                if (found === para) {
+                    commit('payment', true)
+                } else {
+                    commit('payment', false)
+                }
+            },
+            payModeTrigger({commit}, payload) {
+                commit('payment', payload)
+            },
+            routing({commit}, payload) {
+                commit('routing', payload)
             }
         },
         getters: {
@@ -188,6 +247,18 @@ const createStore = () => {
             },
             token(state) {
                 return state.idToken
+            },
+            songList(state) {
+                return state.subList
+            },
+            userId(state) {
+                return state.userId
+            },
+            payMode(state) {
+                return state.paid
+            },
+            routing(state) {
+                return state.routing
             }
         }
     })

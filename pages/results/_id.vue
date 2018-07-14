@@ -3,9 +3,9 @@
         <h1>Results for {{ $route.params.id }} / Total - {{ albumData.length }} Albums</h1>
         <p>Pay to listen all the songs</p>
         <form @submit.prevent="pay">
-            <v-btn type="submit" :disabled="show" class="pay" color="grey darken-1 white--text">{{ payment }}</v-btn>
+            <v-btn type="submit" :disabled="payMode" class="pay" color="grey darken-1 white--text">{{ payment }}</v-btn>
             <div v-if="albumAvail" class="albums">
-                <template v-if="show === false">
+                <template v-if="!payMode">
                     <div v-for="(album, index) in albumData.slice(0, 5)" :key="album.index" class="collection">
                         <Card :title="album.collectionCensoredName"
                         :image="album.artworkUrl100"
@@ -27,7 +27,6 @@
                         </Card>
                     </div>
                 </template>
-                <!-- {{albumData}} -->
             </div>
             <div v-else>
                 <h1>Could Not Find Album</h1>
@@ -43,17 +42,14 @@ import Card from '@/components/Card'
 export default {
     data() {
         return {
-            show: false,
             color: 'green',
-            payment: 'Pay 20$'
+            payment: 'Pay 20$',
+            display: false
         }
     },
     components: {
         Card,
     },
-    // created() {
-    //     this.$store.dispatch('subscribeList')
-    // },
     asyncData({params}) {
         return axios.get(`https://itunes.apple.com/search?term=${params.id}&entity=album`)
         .then((response) => {
@@ -62,26 +58,20 @@ export default {
             }
         })
     },
-    middleware: 'search',
+    middleware: ['search', 'paymentMode'],
+    fetch({ store }) {
+        store.dispatch('payment')
+    },
     methods: {
         picker(index) {
-            // console.log("Index: " + index);
             return index % 2 == 0 ? 'cyan darken-2' : 'pink';
         },
         pay() {
-            this.show = true
-            this.payment = 'Paid'
-            // const songData = {
-            //     artistName: this.$route.params.id,
-            //     userId: this.userId
-            // }
-            // const song = this.$route.params.id
+            this.$store.dispatch('payModeTrigger', true)
             this.$store.dispatch('paidAlbum', {
                 artistName: this.$route.params.id,
-                userId: this.userId
             })
-            console.log(this.$store.getters.user)
-        }
+        },
     },
     computed: {
         albumAvail() {
@@ -92,10 +82,10 @@ export default {
         },
         userId() {
             return this.$store.getters.userId
+        },
+        payMode() {
+            return this.$store.getters.payMode
         }
-        // subscribed() {
-        //     return this.$store.getters.subscribe
-        // }
     },
 }
 </script>

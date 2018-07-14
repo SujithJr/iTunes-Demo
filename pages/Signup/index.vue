@@ -60,6 +60,9 @@
                 email: this.email,
                 password: this.password,
             }
+            if(this.password !== this.confirmPassword) {
+                return
+            }
             this.$store.dispatch('signup', formData)
             this.$store.dispatch('storeUser', formData)
             this.email = ''

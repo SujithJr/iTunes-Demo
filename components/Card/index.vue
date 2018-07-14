@@ -1,6 +1,6 @@
 <template>
-    <div id="e3" style="min-width: 400px; margin: 0 auto;" class="grey lighten-3">
-        <v-container fluid style="min-height: 0;" grid-list-lg>
+    <div class="grey lighten-3">
+        <v-container fluid>
             <v-layout row wrap>
                 <v-flex xs12>
                     <v-card class="white--text" target="_blank" :href="url" :color="color">
@@ -17,6 +17,7 @@
                                 :src="image"
                                 height="100px"
                                 contain
+                                class="media"
                             ></v-card-media>
                             </v-flex>
                         </v-layout>
@@ -30,12 +31,15 @@
 
 <script>
 export default {
-    props: ['title', 'image', 'artistName', 'url', 'color']
+    props: ['title', 'image', 'artistName', 'url', 'color', 'route', 'artistUrl']
 }
 </script>
 
 <style scoped>
-    .artistname {
-        margin-top: 1rem;
-    }
+.artistname {
+    margin-top: 1rem;
+}
+h2, h3 {
+    text-transform: capitalize;
+}
 </style>

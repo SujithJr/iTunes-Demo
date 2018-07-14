@@ -30,6 +30,7 @@ export default {
               this.$store.dispatch('subscribeList')
         })
     },
+    middleware: 'soundtrack'
     // created() {
     //     this.$store.dispatch('subscribeList')
     // }

@@ -8,7 +8,9 @@
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn v-if="!user" flat to="/signup">SignUp</v-btn>
             <v-btn v-if="!user" flat to="/signin">SignIn</v-btn>
-            <v-btn v-if="user" flat to="/">Dashboard</v-btn>
+            <v-btn v-if="user" flat to="/">Home</v-btn>
+            <v-btn v-if="user" flat to="/results">Songs</v-btn>
+            <v-btn v-if="user" flat to="/playlist">Playlist</v-btn>
         </v-toolbar-items>
             <v-btn v-if="user" flat icon @click="logout"><v-icon style="">lock</v-icon></v-btn>
     </v-toolbar>

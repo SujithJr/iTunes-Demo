@@ -78,11 +78,6 @@
         this.$store.dispatch('storeUser', formData)
         this.email = ''
         this.password = ''
-        if (this.user) {
-          this.$router.push('/')
-        } else {
-          return
-        }
       }
     }
   }

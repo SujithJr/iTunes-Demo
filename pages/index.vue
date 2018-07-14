@@ -4,21 +4,26 @@
         <p color="grey darken-3">You should only get here if you are authenticated.!</p>
         <p color="grey darken-3">Your mail address: {{ email }}</p>
         <form @submit.prevent="submit">
-            <input placeholder="Enter Album Name" class="input"
+            <input placeholder="Enter Album Name" class="input" type="text"
             v-model="search" autofocus>
         </form>
+        <!-- <results/> -->
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-
+import results from '@/pages/results/_id'
 export default {
     data() {
         return {
             search: '',
         }
     },
+    // components: {
+    //     results,
+    // },
+    middleware: ['paymentMode'],
     computed: {
         email() {
             return !this.$store.getters.user ? false : this.$store.getters.user
@@ -37,7 +42,8 @@ export default {
             if (!this.search) {
                 return
             }
-            this.$router.push(`results/${this.search}`);
+            this.$router.push(`results/${this.search}`)
+            this.$store.dispatch('payment')
         }
     }
 }
