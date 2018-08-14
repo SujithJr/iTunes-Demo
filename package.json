@@ -14,6 +14,7 @@
     "@nuxtjs/axios": "^5.0.0",
     "firebase": "^5.2.0",
     "lodash": "^4.17.10",
+    "lodash.lowercase": "^4.3.0",
     "nuxt": "^1.0.0",
     "store": "^2.0.12",
     "vue-warehouse": "^1.0.0",

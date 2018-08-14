@@ -3,7 +3,9 @@
         <v-layout row>
             <v-flex xs12>
                 <TheHeader></TheHeader>
-                <nuxt/>
+                <transition name="slide" mode="out-in">
+                    <nuxt/>
+                </transition>
             </v-flex>
         </v-layout>
 	</v-container>
@@ -31,14 +33,22 @@ export default {
         })
     },
     middleware: 'soundtrack',
-    transition(to, from) {
-    if (!from) return 'slide-left'
-    return +to.query.page < +from.query.page ? 'slide-right' : 'slide-left'
   }
-}
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Prompt');
+.slide-left-enter,
+.slide-right-leave-active {
+    opacity: 0;
+    transform: translate(30px, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+    opacity: 0;
+    transform: translate(-30px, 0);
+}
+
 
 </style>

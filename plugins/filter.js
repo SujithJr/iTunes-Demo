@@ -1,3 +1,5 @@
-import Vue from 'vue'
+// import Vue from 'vue'
+// import Lower from '~/plugins/lodash.lowercase'
 
-Vue.filter('capitalize', val => val.toUppercase())
+// Vue.component('Lower', )
+// Vue.filter('capitalize', val => val.toUppercase())

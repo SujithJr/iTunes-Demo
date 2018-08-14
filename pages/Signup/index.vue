@@ -4,7 +4,7 @@
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-card-text>
-              <h2 class="pink--text text-xs-center">SignUp Form</h2>
+            <h2 class="pink--text text-xs-center">SignUp Form</h2>
             <v-container>
             <form @submit.prevent="signup">
                 <v-layout row>

@@ -1,6 +1,6 @@
 <template>
     <div v-if="user">
-        <h1>Results for {{ $route.params.id }} / Total - {{ albumData.length }} Albums</h1>
+        <h1>{{ $route.params.id }} / Total - {{ albumData.length }} Albums</h1>
         <p>Pay to listen all the songs</p>
         <form @submit.prevent="pay">
             <v-btn type="submit" :disabled="payMode" class="pay" color="grey darken-1 white--text">{{ payment }}</v-btn>
@@ -10,7 +10,7 @@
                         <Card :title="album.collectionCensoredName"
                         :image="album.artworkUrl100"
                         :artistName="album.artistName"
-                        :url="album.artistViewUrl"
+                        :url="album.collectionViewUrl"
                         :color="picker(index)"
                         >
                         </Card>
@@ -21,7 +21,7 @@
                         <Card :title="album.collectionCensoredName"
                         :image="album.artworkUrl100"
                         :artistName="album.artistName"
-                        :url="album.artistViewUrl"
+                        :url="album.collectionViewUrl"
                         :color="picker(index)"
                         >
                         </Card>
@@ -71,6 +71,10 @@ export default {
             this.$store.dispatch('paidAlbum', {
                 artistName: this.$route.params.id,
             })
+            // this.$store.dispatch('paidAlbumUrl',{
+            //     routeUrl: this.routeUrl[0]
+            // })
+            console.log(this.$route.params)
         },
     },
     computed: {
@@ -85,6 +89,9 @@ export default {
         },
         payMode() {
             return this.$store.getters.payMode
+        },
+        routeUrl() {
+            return this.$store.getters.routeUrl
         }
     },
 }
@@ -100,6 +107,7 @@ export default {
         margin-bottom: 0;
         color: dimgrey;
         font-family: 'Prompt', sans-serif;
+        text-transform: capitalize;
     }
     p {
         padding: 0;

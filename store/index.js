@@ -51,7 +51,7 @@ const createStore = () => {
                 this.$router.replace('/signin')
             },
             signup({commit, dispatch}, formData) {
-            axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAISZgYtlnMRsbcKJjcbUZ5MG91d1Z2gP4', {
+            axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=API_KEY', {
                     email: formData.email,
                     password: formData.password,
                     returnSecureToken: true
@@ -76,7 +76,7 @@ const createStore = () => {
                 })
             },
             login({commit, dispatch, state}, authData) {
-               axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAISZgYtlnMRsbcKJjcbUZ5MG91d1Z2gP4', {
+               axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=API_KEY', {
                 email: authData.email,
                 password: authData.password,
                 returnSecureToken: true

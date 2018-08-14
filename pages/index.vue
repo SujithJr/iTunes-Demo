@@ -9,11 +9,19 @@
         </form>
         <!-- <results/> -->
     </div>
+    <div v-else>
+        <h2>iTunes</h2>
+        <div class="banner">
+            <img src="@/static/piano1.jpg" alt="iTunes-piano" class="image">
+        </div>
+    </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import results from '@/pages/results/_id'
+import lowercase from 'lodash.lowercase'
+
 export default {
     data() {
         return {
@@ -42,10 +50,11 @@ export default {
             if (!this.search) {
                 return
             }
-            const searchItem = this.search.toUppercase()
-            console.log(searchItem)
-            // this.$router.push(`results/${searchItem}`)
-            // this.$store.dispatch('payment')
+            const item = this.search
+            const searchItem = lowercase(item)
+            var newItem = searchItem.replace(/\s+/g, '');
+            this.$router.push(`results/${newItem}`)
+            this.$store.dispatch('payment')
         }
     }
 }
@@ -55,12 +64,15 @@ export default {
     * {
         text-align: center;
     }
-    h1 {
+    h1, h2 {
         margin: 2rem 0;
         margin-bottom: 0.5rem;
         color: dimgrey;
         font-size: 3rem;
         font-family: 'Prompt', sans-serif;
+    }
+    h2 {
+        font-size: 4rem;
     }
     p {
         font-family: 'Prompt', sans-serif;
@@ -73,5 +85,12 @@ export default {
         border-radius: 10px;
         color: dimgrey;
         font-family: 'Prompt', sans-serif;
+    }
+    .banner {
+        width: 500px;
+        margin: 0 auto;
+    }
+    .image {
+        width: 100%;
     }
 </style>

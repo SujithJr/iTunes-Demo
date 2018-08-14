@@ -1,9 +1,8 @@
 <template>
     <v-toolbar dark color="red darken-3">
-        <v-toolbar-title class="white--text">
-            <v-btn flat class="font-weight-black head">i<span>T</span>unes</v-btn>
-            <!-- <nuxt-link class="title" to="/#">iTunes</nuxt-link> -->
-        </v-toolbar-title>
+        <v-toolbar-items class="hidden-sm-and-down white--text">
+            <v-btn flat to="/" class="font-weight-black head">i<span>T</span>unes</v-btn>
+        </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn v-if="!user" flat to="/signup">SignUp</v-btn>
@@ -42,7 +41,7 @@ export default {
 }
 .head {
     margin: 0;
-    padding: 0;
+    padding: 0 10px;
     font-size: 2.5rem;
     text-transform: lowercase;
     font-family: 'Prompt', sans-serif;
