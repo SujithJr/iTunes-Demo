@@ -1,4 +1,4 @@
-# first-nuxtJS
+# iTunes Demo
 
 > My extraordinary Nuxt.js project
 
